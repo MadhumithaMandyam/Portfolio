@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Madhumitha Mandyam — Portfolio</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet" />
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html {
+      font-size: 18px;
+    }
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #f5f7fa;
+      color: #222;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+    .container {
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      border-radius: 0;
+      overflow: hidden;
+      background: #fff;
+    }
+    .sidebar {
+      flex: 0 0 350px;
+      background: linear-gradient(135deg, #ff6f00, #ff8f00, #ffb300);
+      color: #fff9f0;
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .name {
+      font-weight: 700;
+      font-size: 2rem;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    .role {
+      font-weight: 300;
+      font-style: italic;
+      font-size: 1.1rem;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .social-icons {
+      display: flex;
+      gap: 22px;
+      margin-bottom: 30px;
+    }
+    .social-icons a {
+      font-size: 1.7rem;
+      color: rgba(255,255,255,0.85);
+    }
+    .social-icons a:hover {
+      color: #ffd54f;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+    }
+    nav ul li {
+      margin-bottom: 14px;
+    }
+    nav ul li a {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 18px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.95);
+      border-radius: 8px;
+      font-size: 1.05rem;
+      transition: background-color 0.3s ease;
+    }
+    nav ul li a i {
+      width: 22px;
+    }
+    nav ul li a:hover,
+    nav ul li a.active {
+      background-color: rgba(255, 215, 0, 0.3);
+      box-shadow: inset 5px 0 0 0 #ffd700;
+      color: #fff;
+    }
+    main {
+      flex-grow: 1;
+      padding: 60px 80px;
+      overflow-y: auto;
+    }
+    section {
+      display: none;
+      animation: fadeIn 0.6s ease forwards;
+    }
+    section.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+    h2 {
+      font-size: 2.6rem;
+      margin-bottom: 24px;
+      color: #ff8f00;
+      border-bottom: 3px solid #ff8f00;
+      padding-bottom: 10px;
+    }
+    h2 span.highlight {
+      color: #ff8f00;
+    }
+    p, li {
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: #222;
+    }
+    h3 {
+      font-size: 1.4rem;
+      margin-top: 30px;
+      margin-bottom: 10px;
+    }
+
+    /* Skills section */
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      max-width: 700px;
+      margin-top: 20px;
+    }
+    .skill {
+      background: #fff7e6;        /* very light warm background */
+      color: #ff8f00;             /* orange text */
+      padding: 8px 18px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      user-select: none;
+      box-shadow: 0 4px 10px rgba(255, 143, 0, 0.3);
+      transition: background-color 0.3s ease;
+    }
+    .skill:hover {
+      background-color: #ff8f00;
+      color: white;
+      cursor: default;
+    }
+
+    /* Projects Grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 30px;
+      max-width: 900px;
+    }
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      border-radius: 10px;
+      user-select: none;
+    }
+    .project-title {
+      margin-bottom: 12px;
+      font-weight: 600;
+      font-size: 1.3rem;
+      color: #222;
+      user-select: text;
+      pointer-events: none;
+    }
+
+    /* Flip Card */
+    .flip-card {
+      width: 100%;
+      height: 350px;
+      perspective: 1200px;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform 0.7s ease;
+      transform-style: preserve-3d;
+      border-radius: 10px;
+      overflow: visible;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.07);
+      z-index: 1;
+      background: #fefefe;
+    }
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+    }
+    .flip-card-front,
+    .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      box-sizing: border-box;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      overflow: hidden;
+    }
+    .flip-card-front {
+      background: #fefefe;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      border-radius: 10px;
+    }
+    .flip-card-front img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 10px;
+      user-select: none;
+      pointer-events: none;
+    }
+    .flip-card-back {
+      background: #fff;
+      color: #333;
+      transform: rotateY(180deg);
+      padding: 25px 20px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      overflow-y: auto;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      font-size: 1.1rem;
+      line-height: 1.5;
+      border-radius: 10px;
+      user-select: text;
+    }
+
+    /* Contact link styling */
+    #contact p a {
+      font-weight: 600;
+      border-bottom: 1.8px solid #ff8f00;
+      padding: 8px 18px;
+      background-color: #ff8f00;
+      color: white !important;
+      border-radius: 30px;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+      font-size: 1.05rem;
+      text-decoration: none;
+    }
+    #contact p a:hover {
+      background-color: transparent;
+      color: #ff8f00 !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="name">Madhumitha Mandyam</div>
+      <div class="role"> Aspiring Data Analyst</div>
+
+      <div class="social-icons">
+        <a href="https://www.linkedin.com/in/madhumitha-mandyam-710a08256/" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="https://github.com/" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="mailto:madhumithamandyam@gmail.com"><i class="fas fa-envelope"></i></a>
+      </div>
+
+      <nav>
+        <ul>
+          <li><a href="#about" class="active"><i class="fas fa-user"></i> About Me</a></li>
+          <li><a href="#skills"><i class="fas fa-lightbulb"></i> Skills</a></li>
+          <li><a href="#projects"><i class="fas fa-laptop-code"></i> Projects</a></li>
+          <li><a href="#experience"><i class="fas fa-briefcase"></i> Experience</a></li>
+          <li><a href="#education"><i class="fas fa-graduation-cap"></i> Education</a></li>
+          <li><a href="#certifications"><i class="fas fa-certificate"></i> Certifications</a></li>
+          <li><a href="#contact"><i class="fas fa-envelope-open-text"></i> Contact</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main>
+<section id="about" class="active">
+  <h2>About <span class="highlight">Me</span></h2>
+  <p>
+    With over <strong>2 years of experience</strong> as a data analyst, I specialize in data manipulation, statistical analysis, and visualization. I am proficient in <em>SQL, Python, and Power BI</em>, turning complex data into meaningful insights that support strategic decision-making and business growth.
+  </p>
+  <p>
+    I enjoy collaborating with cross-functional teams to translate data into clear, actionable information. I am passionate about encouraging data-driven cultures and enabling stakeholders to make informed decisions.
+  </p>
+  <p>
+    Constantly improving my skills, I stay updated with the latest analytical tools and best practices to deliver efficient and impactful solutions.
+  </p>
+</section>
+
+<style>
+  #about {
+    padding: 3rem 2rem;
+    max-width: 700px;
+    margin: 0 auto;
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+  }
+
+  #about h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    text-align: center;
+    color: #ff6600;
+  }
+
+  .highlight {
+    color: #e65c00;
+  }
+
+  #about p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 1.2rem;
+    text-align: justify;
+  }
+
+  strong {
+    color: #cc5200;
+  }
+
+  em {
+    font-style: normal;
+    color: #cc5200;
+    font-weight: 600;
+  }
+
+  @media (max-width: 600px) {
+    #about {
+      padding: 2rem 1rem;
+    }
+    #about h2 {
+      font-size: 2rem;
+    }
+    #about p {
+      font-size: 1rem;
+    }
+  }
+</style>
+
+
+
+<section id="skills">
+  <style>
+    /* Container for skill tags: horizontal layout with wrapping */
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    /* Individual skill tag styling with orange background */
+    .skill-tag {
+      background-color: #ff7f00; /* Orange color */
+      color: white;              /* White text for contrast */
+      padding: 6px 12px;
+      border-radius: 5px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 6px; /* space between icon and text */
+      box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+    }
+
+    /* Optional: category heading icon spacing */
+    .skill-category h3 i {
+      margin-right: 8px;
+      color: #0078d4; /* example icon color */
+    }
+
+    /* Section heading highlight styling */
+    #skills h2 .highlight {
+      color: #0078d4;
+    }
+  </style>
+
+  <h2><span class="highlight">Skills</span></h2>
+
+  <div class="skill-category">
+    <h3><i class="fas fa-code"></i> Programming & Analysis</h3>
+    <div class="skill-tags">
+      <div class="skill-tag"><i class="fab fa-python"></i> Python</div>
+      <div class="skill-tag"><i class="fas fa-database"></i> SQL / T-SQL</div>
+      <div class="skill-tag"><i class="fas fa-file-excel"></i> Excel (VBA, VLOOKUP)</div>
+      <div class="skill-tag"><i class="fas fa-stream"></i> ETL / SSIS</div>
+      <div class="skill-tag"><i class="fas fa-random"></i> Data Wrangling</div>
+      <div class="skill-tag"><i class="fas fa-chart-line"></i> Statistical Analysis</div>
+    </div>
+  </div>
+
+  <div class="skill-category">
+    <h3><i class="fas fa-robot"></i> Data Science</h3>
+    <div class="skill-tags">
+      <div class="skill-tag"><i class="fas fa-brain"></i> Machine Learning</div>
+      <div class="skill-tag"><i class="fas fa-network-wired"></i> Deep Learning</div>
+      <div class="skill-tag"><i class="fas fa-chart-pie"></i> Predictive Modeling</div>
+      <div class="skill-tag"><i class="fas fa-language"></i> NLP</div>
+      <div class="skill-tag"><i class="fas fa-search"></i> EDA</div>
+      <div class="skill-tag"><i class="fas fa-vial"></i> A/B Testing</div>
+    </div>
+  </div>
+
+  <div class="skill-category">
+    <h3><i class="fas fa-cloud"></i> Cloud & Big Data</h3>
+    <div class="skill-tags">
+      <div class="skill-tag"><i class="fab fa-microsoft"></i> Azure</div>
+      <div class="skill-tag"><i class="fab fa-aws"></i> AWS</div>
+      <div class="skill-tag"><i class="fas fa-server"></i> Hadoop</div>
+      <div class="skill-tag"><i class="fas fa-bolt"></i> Spark</div>
+      <div class="skill-tag"><i class="fas fa-snowflake"></i> Snowflake</div>
+      <div class="skill-tag"><i class="fas fa-database"></i> BigQuery</div>
+    </div>
+  </div>
+
+  <div class="skill-category">
+    <h3><i class="fas fa-chart-bar"></i> BI & Visualization</h3>
+    <div class="skill-tags">
+      <div class="skill-tag"><i class="fas fa-chart-pie"></i> Power BI</div>
+      <div class="skill-tag"><i class="fas fa-chart-line"></i> Tableau</div>
+      <div class="skill-tag"><i class="fas fa-file-alt"></i> SSRS</div>
+      <div class="skill-tag"><i class="fas fa-cogs"></i> DAX</div>
+      <div class="skill-tag"><i class="fas fa-filter"></i> Power Query</div>
+    </div>
+  </div>
+
+  <div class="skill-category">
+    <h3><i class="fas fa-tools"></i> Tools & Collaboration</h3>
+    <div class="skill-tags">
+      <div class="skill-tag"><i class="fab fa-git-alt"></i> Git / GitHub</div>
+      <div class="skill-tag"><i class="fab fa-jira"></i> Jira</div>
+      <div class="skill-tag"><i class="fas fa-headset"></i> CRM Systems</div>
+      <div class="skill-tag"><i class="fas fa-sitemap"></i> Agile</div>
+      <div class="skill-tag"><i class="fas fa-file-powerpoint"></i> PowerPoint</div>
+    </div>
+  </div>
+</section>
+
+
+<section id="projects">
+  <h2><span class="highlight">Projects</span></h2>
+  <div class="projects-grid">
+
+    <div class="project-card">
+      <h4 class="project-title">Analysing Animated Movie Release Date Patterns and its Effect on Revenue</h4>
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=600&q=80" alt="Animated Movie Release Date" />
+          </div>
+          <div class="flip-card-back">
+            <p>Led a project to optimize animated movie release dates for higher revenue, using regression models like SVM, decision tree, KNN, and ensemble methods. Analyzed performance on test data to determine the best release strategy.<br/><strong>Skills:</strong> Regression Models · Machine Learning · Model Building · Python</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <h4 class="project-title">Ecommerce Website</h4>
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="https://woovina.com/images/2020/07/25/best-ecommerce-website-templates.jpg" alt="Ecommerce Website" />
+          </div>
+          <div class="flip-card-back">
+            <p>Developed an e-commerce website using HTML, CSS, and JavaScript, incorporating drag and drop functionality for task prioritization and real-time updates. Utilized an SQL database for efficient task data storage and implemented queries for user authentication and task management.<br/><strong>Skills:</strong> DBMS · HTML · CSS · MySQL · SQL · JavaScript · Microsoft Power BI</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <h4 class="project-title">Flight Status Prediction</h4>
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="https://images.ctfassets.net/ov8o7v78mnye/5rU7YRT6ouJCisVHgGaPJQ/bc2b945c6a29fa4b324691d40a6efc6a/blog-flight-tracker1-Adobe_Stock_Artur_Grom.jpg" alt="Flight Status Prediction" />
+          </div>
+          <div class="flip-card-back">
+            <p>Developed predictive models for Hawaiian Airlines flight cancellations, with comprehensive data preprocessing and class imbalance handling through stratified sampling. Evaluated linear and non-linear models using 5-fold cross-validation and kappa to identify the most effective approach for prediction.<br/><strong>Skills:</strong> Predictive Modeling · R · Classification models · Data Preprocessing · Model Building · Data Analysis</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <h4 class="project-title">Surface Crack Detection</h4>
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="https://images.unsplash.com/photo-1723726354421-ea2051bd9921?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE1fHx8ZW58MHx8fHx8" alt="Surface Crack Detection" />
+          </div>
+          <div class="flip-card-back">
+            <p>Developed a scalable system using CNNs and PySpark to detect surface cracks in images, addressing structural failure risks in manufacturing and construction industries.<br/><strong>Skills:</strong> PySpark · VMware · Hadoop · CNN Models</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+
+    <section id="experience">
+      <h2>Experience</h2>
+      <div class="job">
+        <h3>Research Assistant - Michigan Technological University</h3>
+        <p class="company-duration">Jan 2024 - Apr 2025</p>
+           <ul>
+      <li>Analyzed financial datasets and performed extensive data wrangling in Azure Data Studio to prepare data for anomaly detection research, including cleansing, standardizing formats, and handling missing values to ensure dataset integrity.</li>
+      <li>Organized data into dimension and fact tables and developed a star schema data model, enhancing query efficiency and supporting effective data analysis workflows for research purposes.</li>
+      <li>Created 13 analytical business rules based on review of historical data trends, enabling automated identification of anomalies across multiple organizational levels such as organizations, franchises, and stores.</li>
+      <li>In PowerBI model view, constructed relationships between tables and integrated data queries, then defined calculated columns and DAX measures aligned with research requirements.</li>
+      <li>Designed and deployed an interactive PowerBI dashboard featuring KPIs and visualizations, including bar charts to represent anomalies by rule ID, organization, franchise, and store, facilitating detailed analysis by the research team.</li>
+      <li>Implemented dynamic slicers for filtering by severity level, organization, franchise, and store name, allowing researchers to conduct real time root cause analysis and deeper exploration of anomaly patterns.</li>
+      <li>Collaborated closely with faculty advisor, researchers, and subject matter experts to ensure dashboard design and data models aligned with research goals and supported financial audit and compliance studies.</li>
+      <li>Followed Agile research methodologies and utilized Jira to track project tasks and maintain clear communication within the research group, ensuring timely delivery of data assets and analytical tools.</li>
+    </ul>
+      </div>
+      <div class="job">
+        <h3>Data Analyst</h3>
+        <p class="Technomold">Dec 2022 - Jul 2023</p>
+       <ul>
+      <li>Analyzed financial datasets and performed extensive data wrangling in Azure Data Studio to prepare data for anomaly detection research, including cleansing, standardizing formats, and handling missing values to ensure dataset integrity.</li>
+      <li>Organized data into dimension and fact tables and developed a star schema data model, enhancing query efficiency and supporting effective data analysis workflows for research purposes.</li>
+      <li>Created 13 analytical business rules based on review of historical data trends, enabling automated identification of anomalies across multiple organizational levels such as organizations, franchises, and stores.</li>
+      <li>In PowerBI model view, constructed relationships between tables and integrated data queries, then defined calculated columns and DAX measures aligned with research requirements.</li>
+      <li>Designed and deployed an interactive PowerBI dashboard featuring KPIs and visualizations, including bar charts to represent anomalies by rule ID, organization, franchise, and store, facilitating detailed analysis by the research team.</li>
+      <li>Implemented dynamic slicers for filtering by severity level, organization, franchise, and store name, allowing researchers to conduct real time root cause analysis and deeper exploration of anomaly patterns.</li>
+      <li>Collaborated closely with faculty advisor, researchers, and subject matter experts to ensure dashboard design and data models aligned with research goals and supported financial audit and compliance studies.</li>
+      <li>Followed Agile research methodologies and utilized Jira to track project tasks and maintain clear communication within the research group, ensuring timely delivery of data assets and analytical tools.</li>
+    </ul>
+      </div>
+    </section>
+
+    <section id="education">
+  <h2>Education</h2>
+  <div class="education-item">
+    <h3>Michigan Technological University</h3>
+    <p>Master of Science in Data Science</p>
+    <p>Aug 2023 – Apr 2025 | GPA: 3.65/4.0</p>
+    <h4>Relevant Coursework:</h4>
+    <ul>
+      <li>Advanced Data Mining</li>
+      <li>Information Systems Management and Data Analytics</li>
+      <li>Big Data Analytics</li>
+      <li>Introduction to Data Science</li>
+      <li>Database Systems</li>
+      <li>Machine Learning</li>
+      <li>Management of Technology and Innovation</li>
+      <li>Predictive Modeling</li>
+      <li>Regression Analysis</li>
+        </ul>
+      </section>
+
+<section id="certifications">
+  <h2><span class="highlight">Certifications</span></h2>
+  <ul>
+    <li>Complete Guide to Power BI for Data Analysts by Microsoft</li>
+    <li>Data Analytics by Deloitte</li>
+    <li>SQL for Data Analysis by LinkedIn</li>
+    <li>Hands-On Data Science using SQL, Tableau, Python, and Spark by LinkedIn</li>
+    <li>Data Analytics by Forage</li>
+  </ul>
+</section>
+
+<section id="contact">
+  <h2><span class="highlight">Contact</span></h2>
+  <p>
+    You can reach me at
+    <a href="mailto:madhumithamandyam@gmail.com">madhumithamandyam@gmail.com</a>
+    or connect on
+    <a href="https://www.linkedin.com/in/madhumitha-mandyam-710a08256/" target="_blank" rel="noopener noreferrer">LinkedIn</a>.
+  </p>
+</section>
+
+
+  <script>
+    const navLinks = document.querySelectorAll('nav ul li a');
+    const sections = document.querySelectorAll('main section');
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        navLinks.forEach(l => l.classList.remove('active'));
+        sections.forEach(s => s.classList.remove('active'));
+
+        link.classList.add('active');
+        const target = document.querySelector(link.getAttribute('href'));
+        target.classList.add('active');
+      });
+    });
+
+    // Flip card on click
+    document.querySelectorAll('.flip-card').forEach(card => {
+      card.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+      });
+    });
+  </script>
+</body>
+</html>
